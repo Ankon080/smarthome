@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthome/Screen/login_screen.dart';
 import 'package:smarthome/style/colors.dart';
 
@@ -13,6 +14,20 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   TextEditingController _emailController = TextEditingController();
+  bool _isDarkMode = true;
+
+  void initState() {
+    super.initState();
+    _loadThemePreference();
+
+  }
+  Future<void> _loadThemePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isDarkMode = prefs.getBool('isDarkMode') ?? true;
+    });
+  }
+
 
   void _sendPasswordResetEmail(BuildContext context) async {
     String email = _emailController.text.trim();
@@ -48,7 +63,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               TextButton(
                 child: Text("OK", style: TextStyle(color: Colors.white70)),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -109,7 +124,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: _isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           reverse: true,
@@ -131,9 +146,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Text(
-                    "Smart Home",
+                    "Smartify",
                     style: TextStyle(
-                      color: Colors.white,
+                      backgroundColor: _isDarkMode ? Colors.black : Colors.white,
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                     ),
@@ -160,10 +175,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Color.fromRGBO(96, 96, 96, 40),
+                      fillColor: _isDarkMode
+                          ? Color.fromRGBO(96, 96, 96, 40)
+                          : Colors.grey[200],
                       hintText: "Email",
                       hintStyle: TextStyle(
-                        color: Colors.white54,
+                        color: _isDarkMode ? Colors.white54 : Colors.black54,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -191,7 +208,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       style: TextStyle(color: Colors.white70),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pink, // Replace with your desired color
+                      backgroundColor: Colors.pink,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
@@ -208,7 +225,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Text(
                         "Finished resetting your password?",
                         style: TextStyle(
-                          color: Color.fromRGBO(174, 175, 175, 100),
+                          backgroundColor: _isDarkMode ? Colors.black : Colors.white,
                         ),
                       ),
                       TextButton(

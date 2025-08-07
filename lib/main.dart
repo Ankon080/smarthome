@@ -7,11 +7,14 @@ void main() async {
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey:
-      "AIzaSyBZrTCwNCpEABrw3N0xsGDsSnOHdPdcCm8", // paste your api key here
+      "AIzaSyBZrTCwNCpEABrw3N0xsGDsSnOHdPdcCm8",
       appId:
-      "1:530215667411:android:9c67f9cc5976380276b626", //paste your app id here
-      messagingSenderId: "530215667411", //paste your messagingSenderId here
-      projectId: "smarthome-3dd44", //paste your project id here
+      "1:530215667411:android:9c67f9cc5976380276b626",
+      messagingSenderId: "530215667411",
+      projectId: "smarthome-3dd44",
+      authDomain: 'smarthome-3dd44.firebaseapp.com',
+      databaseURL: "https://smarthome-3dd44-default-rtdb.firebaseio.com",
+      storageBucket: 'smarthome-3dd44.appspot.com',
     ),
   );
   runApp(const Myapp());

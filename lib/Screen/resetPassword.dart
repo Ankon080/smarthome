@@ -15,11 +15,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   void _resetPassword() {
     String newPassword = _passwordController.text.trim();
 
-    // Implement your logic to reset the password using newPassword and widget.email
-    // For example, you can use FirebaseAuth.instance.currentUser.updatePassword(newPassword)
 
-    // After resetting the password, navigate back to the login screen or home screen
-    Navigator.pop(context); // Navigate back to the previous screen
+    Navigator.pop(context);
   }
 
   @override

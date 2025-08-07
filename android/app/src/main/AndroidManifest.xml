@@ -1,4 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Add the permission for recording audio -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <!-- Optionally add the permission for internet if needed by speech recognition services -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Optionally add the permission for Bluetooth if your app uses Bluetooth features -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+
+
+
+
+
     <application
         android:label="smarthome"
         android:name="${applicationName}"
@@ -16,9 +33,9 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+                />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

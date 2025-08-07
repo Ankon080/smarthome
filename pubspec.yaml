@@ -42,6 +42,17 @@ dependencies:
   firebase_auth: ^5.1.0
   cloud_firestore: ^5.0.1
   firebase_storage: ^12.0.1
+  firebase_database: ^11.1.1
+  firebase_messaging: ^15.1.0
+  flutter_local_notifications: ^17.2.2
+  shared_preferences: ^2.3.2
+  speech_to_text: ^7.0.0
+  image_picker: ^1.1.2
+  permission_handler: ^11.3.1
+  flutter_background_service: ^5.0.10
+
+
+
 
 
 

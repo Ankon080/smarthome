@@ -1,35 +1,27 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthome/Screen/dashboard.dart';
+import 'package:smarthome/Screen/deletefinger.dart';
+import 'package:smarthome/Screen/unlock_door.dart';
 import 'package:smarthome/style/ContainerStyle.dart';
 import 'package:smarthome/user_auth/FIrebase_auth/firebaseAuth.dart';
 import '../style/simplecontainer.dart';
+import 'enroll_finger.dart';
 import 'signupScreen.dart';
 import 'fingerprint.dart';
-import 'package:firebase_database/firebase_database.dart';
 
-
-class enterence extends StatefulWidget {
-  const enterence({super.key});
+class FingerprintPage extends StatefulWidget {
+  const FingerprintPage({super.key});
 
   @override
-  State<enterence> createState() => _enterenceState();
+  State<FingerprintPage> createState() => _FingerprintPageState();
 }
 
-class _enterenceState extends State<enterence> {
-  bool _isDarkMode = true; // Default to dark mode
-  Future<void> _updateKitchenFanBasedOnLight(bool isLightOn) async {
-    final DatabaseReference kitchenFanRef =
-    FirebaseDatabase.instance.ref().child('kitchen_fan');
-    try {
-      await kitchenFanRef.set(isLightOn ? 1 : 0);
-      print('kitchen_fan updated to ${isLightOn ? 1 : 0}');
-    } catch (e) {
-      print('Error updating kitchen_fan: $e');
-    }
-  }
-
+class _FingerprintPageState extends State<FingerprintPage> {
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref(); // Firebase ref initialization
+  bool _isDarkMode = true; // Default dark mode
 
   @override
   void initState() {
@@ -47,7 +39,6 @@ class _enterenceState extends State<enterence> {
 
   @override
   Widget build(BuildContext context) {
-    bool lights = false;
     return Scaffold(
       backgroundColor: _isDarkMode ? Colors.black : Colors.white,
       body: SingleChildScrollView(
@@ -130,34 +121,52 @@ class _enterenceState extends State<enterence> {
                 children: [
                   SizedBox(width: 10),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FingerprintPage()),
-                            (route) => false,
-                      );
-                    },
-                    child: SimpleContainer(
-                      myicon: Icons.fingerprint,
-                      containerText: "FingerPrint",
-
-                    ),
-                  ),
-                  Mycontainer(
-                    myicon: Icons.lightbulb,
-                    containerText: "   light",
-                    pageName: 'entranceroom',
-                    onSwitchChanged: (bool isOn) {
-                      _updateKitchenFanBasedOnLight(isOn);
-                    },
-                  ),
-
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => const enrollfinger()),
+                              (route) => false,
+                        );
+                      },
+                      child: SimpleContainer(
+                        containerText: "Enroll FingerPrint",
+                        myicon: Icons.fingerprint,
+                      )),
+                  GestureDetector(
+                      onTap: () async {
+                        await _dbRef.child("Enroll_fingerprint").set(2);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => const UnlockDoor()),
+                              (route) => false,
+                        );
+                      },
+                      child: SimpleContainer(
+                          containerText: "Unlock Door",
+                          myicon: Icons.lock_open_rounded)),
                   SizedBox(width: 10),
                 ],
               ),
               SizedBox(height: 10),
-
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(width: 10),
+                  GestureDetector(
+                      onTap: () async {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => deletefinger()),
+                              (route) => false,
+                        );
+                      },
+                      child: SimpleContainer(
+                        containerText: "Delete Fingerprint",
+                        myicon: Icons.fingerprint,
+                      )),
+                  SizedBox(width: 10),
+                ],
+              ),
             ],
           ),
         ),

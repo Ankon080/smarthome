@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+ // Make sure this is the path to your login screen
 import 'package:smarthome/style/colors.dart';
+import 'package:flutter/scheduler.dart';
 
-Drawer Mydrawer({String? username, String? email}) {
+import '../Screen/login_screen.dart';
+
+Drawer Mydrawer(BuildContext context, {String? username, String? email}) {
   return Drawer(
     child: Container(
       color: Colors.black87,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-
           DrawerHeader(
             decoration: BoxDecoration(
               color: lightPink,
@@ -44,18 +47,25 @@ Drawer Mydrawer({String? username, String? email}) {
           ),
 
           ListTile(
-            leading: Icon(Icons.image,color: lightPink,),
-            title: Text('Upload Image',style: TextStyle(color: Colors.white70,fontSize: 18,fontWeight: FontWeight.bold),),
-            onTap: () {
-              // Handle the home action
-            },
-          ),
-
-          ListTile(
-            leading: Icon(Icons.logout,color: lightPink,),
-            title: Text('Logout',style: TextStyle(color: Colors.white70,fontSize: 18,fontWeight: FontWeight.bold),),
-            onTap: () {
-              // Handle the logout action
+            leading: Icon(Icons.logout, color: lightPink),
+            title: Text(
+              'Logout',
+              style: TextStyle(color: Colors.white70, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              try {
+                await FirebaseAuth.instance.signOut();
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => loginScreen()),
+                        (route) => false,
+                  );
+                });
+              } catch (e) {
+                // Handle sign-out error
+                print('Error signing out: $e');
+              }
             },
           ),
         ],
